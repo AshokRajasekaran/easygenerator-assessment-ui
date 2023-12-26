@@ -10,7 +10,7 @@ const Login = () => {
   const onFinish = async (values: any) => {
     console.log("Received values of form: ", values);
     try {
-      const response = await axios.post("http://localhost:3000/auth/Login", {
+      const response = await axios.post("http://localhost:3000/auth/login", {
         email: values.email,
         password: values.password,
       });
@@ -19,7 +19,7 @@ const Login = () => {
       navigate("/dashboard");
     } catch (error: any) {
       let errorMessage = "Something Went wrong";
-      if (error?.response?.data?.displayMessage?.length) {
+      if (Array.isArray(error?.response?.data?.displayMessage)) {
         errorMessage = error?.response?.data?.displayMessage.join(",");
       } else if (error?.response?.data?.displayMessage) {
         errorMessage = error.response.data.displayMessage;
@@ -56,7 +56,11 @@ const Login = () => {
           name="password"
           rules={[
             { required: true, message: "Please input your Password!" },
-            { min: 6, message: "Password is Invalid" },
+            {
+              pattern:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,18}$/,
+              message: "Password is Invalid",
+            },
           ]}
         >
           <Input

@@ -13,16 +13,16 @@ const SignUp = () => {
       const response = await axios.post("http://localhost:3000/auth/signup", {
         email: values.email,
         password: values.password,
-        name: values.name
+        name: values.name,
       });
-      console.log("Login successful", response.data);
+      console.log("Signup successful", response.data);
       setUser(response.data);
       navigate("/dashboard");
     } catch (error: any) {
       // Handle errors (e.g., show error message)
-      console.error("Login error", JSON.stringify(error));
+      console.error("Signup error", JSON.stringify(error));
       console.error(
-        "Login error Response",
+        "Signup error Response",
         JSON.stringify(error.response.data)
       );
       let errorMessage = "Something Went wrong";
@@ -60,89 +60,94 @@ const SignUp = () => {
   };
 
   return (
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      initialValues={{
-        residence: ["zhejiang", "hangzhou", "xihu"],
-        prefix: "86",
-      }}
-      style={{ maxWidth: 600 }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="name"
-        label="Full Name"
-        rules={[
-          {
-            required: true,
-            message: "Please input your Name!",
-          },
-        ]}
+    <div>
+      <h2>SignUp </h2>
+      <Form
+        {...formItemLayout}
+        form={form}
+        name="register"
+        onFinish={onFinish}
+        initialValues={{
+          residence: ["zhejiang", "hangzhou", "xihu"],
+          prefix: "86",
+        }}
+        style={{ maxWidth: 600 }}
+        scrollToFirstError
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: true,
-            message: "Please input your E-mail!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Please confirm your password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                new Error("The new password that you entered do not match!")
-              );
+        <Form.Item
+          name="name"
+          label="Full Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Name!",
             },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
-          Register
-        </Button>
-      </Form.Item>
-    </Form>
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="email"
+          label="E-mail"
+          rules={[
+            {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+            {
+              required: true,
+              message: "Please input your E-mail!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[
+            { required: true, message: "Please input your Password!" },
+            {
+              pattern:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,18}$/,
+              message: "Password must contain at least one uppercase letter, one smallcase letter, one special character, one numeric digit, minimum of 6 and maximum of 18 characters",
+            },
+          ]}
+          hasFeedback
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item
+          name="confirm"
+          label="Confirm Password"
+          dependencies={["password"]}
+          hasFeedback
+          rules={[
+            {
+              required: true,
+              message: "Please confirm your password!",
+            },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error("The new password that you entered do not match!")
+                );
+              },
+            }),
+          ]}
+        >
+          <Input.Password />
+        </Form.Item>
+        <Form.Item {...tailFormItemLayout}>
+          <Button type="primary" htmlType="submit">
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
+    </div>
   );
 };
 

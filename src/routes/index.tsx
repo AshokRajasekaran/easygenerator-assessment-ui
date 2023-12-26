@@ -11,7 +11,7 @@ export default createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Login />,
+        element: <Navigate to="/login" replace />,
       },
       {
         element: <AuthRoutes />,
