@@ -67,11 +67,8 @@ const SignUp = () => {
         form={form}
         name="register"
         onFinish={onFinish}
-        initialValues={{
-          residence: ["zhejiang", "hangzhou", "xihu"],
-          prefix: "86",
-        }}
-        style={{ maxWidth: 600 }}
+        initialValues={{}}
+        style={{ maxWidth: 700, minWidth: 400 , width:500}}
         scrollToFirstError
       >
         <Form.Item
@@ -110,7 +107,8 @@ const SignUp = () => {
             {
               pattern:
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,18}$/,
-              message: "Password must contain at least one uppercase letter, one smallcase letter, one special character, one numeric digit, minimum of 6 and maximum of 18 characters",
+              message:
+                "Password must contain at least one uppercase letter, one smallcase letter, one special character, one numeric digit, minimum of 6 and maximum of 18 characters",
             },
           ]}
           hasFeedback
@@ -126,6 +124,12 @@ const SignUp = () => {
             {
               required: true,
               message: "Please confirm your password!",
+            },
+            {
+              pattern:
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,18}$/,
+              message:
+                "Password must contain at least one uppercase letter, one smallcase letter, one special character, one numeric digit, minimum of 6 and maximum of 18 characters",
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
